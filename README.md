@@ -1,6 +1,6 @@
 # NumberInsight-fromxlsx
 
-A script that reads an xlsx file and programatically check numbers reachability via Nexmo Numnber Insight Advanced API writting the results into a .csv file. The requests are sent at a rate of 27 requests/second.
+A script that reads an xlsx file and programatically check numbers reachability via Nexmo Number Insight Advanced API writting the results into a .csv file. The requests are sent at a rate of 27 requests/second.
 
 # Installation
 cd to the directory of the project and then run npm install 
