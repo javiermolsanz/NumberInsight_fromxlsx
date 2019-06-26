@@ -1,7 +1,7 @@
 # NumberInsight-fromxlsx
 
 # Installation
-cd to the directory of the project and then run npm install  no
+cd to the directory of the project and then run npm install 
 
 # Usage
 1 Fill out the .env file with your own API key and secret
