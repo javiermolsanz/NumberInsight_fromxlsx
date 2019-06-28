@@ -44,7 +44,7 @@ let columns = data[0];
                     console.log('Reading the first ', rows_length + ' values')
                   } 
 
-    			     for (j=1; j<=rows_length; j++) {
+    			     for (j=1; j<rows_length; j++) {
     				      result[j] = data[j][i];
     	           }
 
