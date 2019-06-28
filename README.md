@@ -12,9 +12,9 @@ cd to the directory of the project and then run npm install
 
 3. Running the script
     
-    3.1 If you want the whole file to be read simply run npm integration.js
+    3.1 If you want the whole file to be read simply run node integration.js
     
-    3.2 if you want to limit the read to the first "x" results, run npm integration.js x, where x is the number of results to      be read
+    3.2 if you want to limit the read to the first "x" results, run node integration.js x, where x is the number of results to      be read
     
 4. A csv file will be generated with the numbers listed in international format and reachability status
 
