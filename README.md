@@ -18,4 +18,4 @@ cd to the directory of the project and then run npm install
     
 4. A csv file will be generated with the numbers listed in international format and reachability status
 
-5. After you're done with the file. Delete or move out the .csv file otherwise the next time that you run the script it will keep appending CSV records to output file 
+5. After you're done with the file. Delete or move out the .csv file otherwise the next time that you run the script it will keep appending CSV records to the output file 
