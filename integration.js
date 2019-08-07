@@ -5,7 +5,7 @@ var http = require('http');
 var dotenv = require('dotenv').config()
 var RateLimiter = require('limiter').RateLimiter;
 const glob = require('glob');
-const createCsvWriter = require('csv-writer').createArrayCsvWriter;  
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;  
 
 var agent = new http.Agent({
   keepAlive: true,
@@ -13,11 +13,11 @@ var agent = new http.Agent({
   keepAliveMsecs: 3000
 })
 
-let salida = []
-let llenar= []
-let format =[]
-let national = []
+let resultado = []
 let result = []
+let internat = [];
+let portability = [];
+let current_carrier =[];
   
 const nexmo = new Nexmo({
 apiKey: process.env.apiKey,
@@ -40,9 +40,11 @@ let columns = data[0];
     		if (columns[i] === 'To'){
 
                 if (typeof(process.argv[2]) != 'undefined'){
-                rows_length = process.argv[2]
+                rows_length = process.argv[2] 
                     console.log('Reading the first ', rows_length + ' values')
                   } 
+
+                
 
     			     for (j=1; j<rows_length; j++) {
     				      result[j] = data[j][i];
@@ -76,73 +78,59 @@ function removeDuplicates(num) {
 var final = removeDuplicates(result);
  var limiter = new RateLimiter(27, 'second', true);
 const csvWriter = createCsvWriter({
-    path: 'out.csv',
-    append: true
+  path: 'out.csv',
+  header: [
+      {id: 'reachable', title: 'reachable'},
+      {id: 'number', title: 'number'},
+      {id: 'ported', title: 'ported'},
+      {id: 'Network', title: 'Network'}
+
+  ]
 });
 
-final.forEach((item, index) => {
+
     limiter.removeTokens(1, () => {
 
-      nexmo.numberInsight.get({level: 'advancedSync', number: item}, (error, response) => {
-       if (error) {
-         console.error(error)
-       } else {
+     function Checkallnumbers(result, finished){
 
-                      llenar[index, 0]=(response.status_message)
-                      format[index, 0]=(response.international_format_number)
-                      national[index, 0]=(response.reachable)
-                      let record = llenar.concat(format,national);
-                      console.log(record)
+  for (let i=0; i< result.length; i++){
+    nexmo.numberInsight.get({level: 'advancedSync', number: result[i]}, (err, resp)=>{
 
-                                function chunkArray(myArray, chunk_size){
-                                var index = 0;
-                                var arrayLength = myArray.length;
-                                var tempArray = [];
-                        
-                                  for (index = 0; index < arrayLength; index += chunk_size) {
-                                   myChunk = myArray.slice(index, index+chunk_size);
-                                    tempArray.push(myChunk);
-                                    }
+      if (err){console.log(err)}
+      else{
+        resultado.push(resp.reachable)
+        internat.push(resp.international_format_number)
+        portability.push(resp.ported)
+        current_carrier.push(resp.current_carrier.network_code)
+        //return finished()
+        if (resultado.length === result.length){return finished()}
+      }
+    });
+  }
 
+}
 
-                                      return tempArray;
-                                }     
+Checkallnumbers(result,finished)
 
-                      let resultadin = chunkArray(record, 3);
-                      console.log('This is', resultadin);
+function finished(){
+  let newArr = result.map((val, i, result) => {
+    return {
+      number: internat[i],
+      reachable: val,
+      ported: portability[i],
+      Network: current_carrier[i]
+    };
+  });
 
-               
-
-                  csvWriter.writeRecords(resultadin) .then(() => {
-                  //console.log('...Done');
-                  });
-
-         
-      
-                }
-          })
+  csvWriter.writeRecords(newArr) .then(() => {
+    console.log(newArr)
+    console.log('...Done');
+    });
+  //console.log(newArr)
+}
        
 
         })  
- }) 
+ 
 })
-
-
-
-      
-         
-       }
-     })
-       
-
-   })
-
-
-
-  
- }) 
-
-
-})
-
 
