@@ -57,7 +57,7 @@ let columns = data[0];
 //to avoid undefined
 result[0]=result[1];
 
-//remove duplicated results
+//remove duplicated results just in case
 function removeDuplicates(num) {
   let x,
       len=num.length,
