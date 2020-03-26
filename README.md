@@ -10,7 +10,7 @@ cd to the directory of the project and then run npm install.
 
 2. Move the .xlsx file that you want to be read inside of the main directory of the project. Make sure that the column's header under which all the numbers are listed is called 'To'
 
-3. Running the script
+3. Running the script.
     
     3.1 If you want the whole file to be read simply run node integration.js
     
