@@ -12,7 +12,7 @@ cd to the directory of the project and then run npm install.
 
 3. Running the script.
     
-    3.1 If you want the whole file to be read simply run node integration.js
+    3.1 If you want the whole file to be read, run node integration.js
     
     3.2 if you want to limit the read to the first "x" results, run node integration.js x, where x is the number of results to      be read
     
